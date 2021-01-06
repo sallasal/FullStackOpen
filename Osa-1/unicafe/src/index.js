@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+//
+// Layout parts
+//
+
 const Header = ({ headerText }) => (
   <h1>{headerText}</h1>
 )
@@ -11,11 +15,31 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
+const Statistics = ({ good, neutral, bad }) => {
+  let average = <Avg good = {good} neutral = {neutral} bad = {bad} /> 
+  let positive = <Percent good = {good} neutral = {neutral} bad = {bad} />
+
+  return (
+    <div>
+      <StatRow text = 'Good' value={good} />
+      <StatRow text = 'Neutral' value = {neutral} />
+      <StatRow text = 'Bad' value = {bad} />
+      <StatRow text = 'All' value = {bad + neutral + good} />
+      <StatRow text = 'Average' value = {average} />
+      <StatRow text = 'Positive' value = {positive} />
+    </div>
+  )
+}
+
 const StatRow = ({ text, value }) => {
   return (
     <p>{text} {value}</p>
   )
 }
+
+//
+// Help functions
+//
 
 const Avg = ({ good, neutral, bad }) => {
   let avg = 0
@@ -38,17 +62,17 @@ const Percent = ({ good, neutral, bad }) => {
     percent = good*100/(good + neutral + bad)
   }
 
-  return percent
+  return `${percent} %`
 }
 
+//
+// The application
+//
+
 const App = () => {
-  // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-
-  let average = <Avg good = {good} neutral = {neutral} bad = {bad} /> 
-  let positive = <Percent good = {good} neutral = {neutral} bad = {bad} />
 
   return (
     <div>
@@ -57,12 +81,7 @@ const App = () => {
       <Button handleClick = {() => setNeutral(neutral + 1)} text = 'neutral' />
       <Button handleClick = {() => setBad(bad + 1)} text = 'bad' />
       <Header headerText = 'Statistics' />
-      <StatRow text = 'Good' value={good} />
-      <StatRow text = 'Neutral' value = {neutral} />
-      <StatRow text = 'Bad' value = {bad} />
-      <StatRow text = 'All' value = {bad + neutral + good} />
-      <StatRow text = 'Average' value = {average} />
-      <StatRow text = 'Positive' value = {positive} />
+      <Statistics good = {good} neutral = {neutral} bad = {bad} />
 
     </div>
   )
