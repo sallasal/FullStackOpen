@@ -29,19 +29,26 @@ const Statistics = ({ good, neutral, bad }) => {
 
   return (
     <div>
-      <StatisticLine text = 'Good' value={good} />
-      <StatisticLine text = 'Neutral' value = {neutral} />
-      <StatisticLine text = 'Bad' value = {bad} />
-      <StatisticLine text = 'All' value = {bad + neutral + good} />
-      <StatisticLine text = 'Average' value = {average} />
-      <StatisticLine text = 'Positive' value = {positive} />
+      <table>
+        <tbody style={{textAlign:'left'}}>
+          <StatisticLine text = 'Good' value={good} />
+          <StatisticLine text = 'Neutral' value = {neutral} />
+          <StatisticLine text = 'Bad' value = {bad} />
+          <StatisticLine text = 'All' value = {bad + neutral + good} />
+          <StatisticLine text = 'Average' value = {average} />
+          <StatisticLine text = 'Positive' value = {positive} />
+        </tbody>
+      </table>
     </div>
   )
 }
 
 const StatisticLine = ({ text, value }) => {
   return (
-    <p>{text} {value}</p>
+    <tr>
+      <th>{text}</th> 
+      <th>{value}</th>
+    </tr>
   )
 }
 
