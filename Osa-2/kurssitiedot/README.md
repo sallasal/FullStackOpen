@@ -1,3 +1,3 @@
 # Kurssitiedot
 
-Osan 1 kurssitiedot-harjoitusten koodi
+Osan 2 kurssitiedot-jatkoharjoitusten koodi
