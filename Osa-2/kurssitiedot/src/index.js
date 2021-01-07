@@ -4,8 +4,9 @@ import ReactDOM from 'react-dom'
 const Course = ({ course }) => {
   return (
     <div>
-      <Header course={course.name}/>
-      <Content parts={course.parts}/>
+      <Header course = {course.name}/>
+      <Content parts = {course.parts}/>
+      <Total parts = {course.parts}/>
     </div>
   )
 }
@@ -19,7 +20,6 @@ const Header = (props) => {
 }
 
 const Content = ({ parts }) =>  {
-  console.log(parts)
   return (
     <div>
       {parts.map(part =>
@@ -35,6 +35,12 @@ const Part = (props) => {
       <p>{props.part.name} {props.part.exercises}</p>
     </div>
   )
+}
+
+const Total = ({ parts }) => {
+  const values = parts.map(part => part.exercises)
+  const total = values.reduce((sum, value) => sum + value,0)
+  return (<p><strong>Total of {total} exercises</strong></p>)
 }
 
 const App = () => {
