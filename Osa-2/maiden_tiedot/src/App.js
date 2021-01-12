@@ -9,9 +9,21 @@ const Filter = ({ filter, handleFilterChange }) => {
   )
 }
 
-const ListCountries = ({ countriesToShow }) => {
+const ListCountries = ({ countriesToShow, handleClick }) => {
   return (
-    countriesToShow.map(country => <div key={country.name}>{country.name}</div>)
+    countriesToShow.map(country => <CountryRow key={country.name} country = {country} handleClick = {handleClick} />)
+  )
+}
+
+const CountryRow = ({ country, handleClick }) => {
+  const clickHandler = (country) => {
+    return () => handleClick(country)
+  }
+  return (
+    <div>
+      {country.name} <button onClick={clickHandler(country)}>Show</button>
+    </div>
+
   )
 }
 
@@ -48,6 +60,10 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const handleClick = (event) => {
+    setFilter(event.name)
+  }
+
   const countriesToShow = countries.filter(country => country.name.toLowerCase().includes(filter.toLowerCase()))
 
   if (countriesToShow.length > 10) {
@@ -68,7 +84,7 @@ const App = () => {
     return (
       <div>
         <Filter filter = {filter} handleFilterChange = {handleFilterChange}/>
-        <ListCountries countriesToShow = {countriesToShow}/>
+        <ListCountries countriesToShow = {countriesToShow} handleClick = {handleClick} />
       </div>
     )
   }
