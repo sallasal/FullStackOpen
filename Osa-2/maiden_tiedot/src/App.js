@@ -42,16 +42,42 @@ const CountryInformation = ({ country }) => {
   )
 }
 
+const WeatherInformation = ({ country }) => {
+  const [weather, setWeather] = useState({request: {}, location: {}, current: {temperature: null, wind_speed: null, wind_dir: null, weather_icons: [null]}})
+
+  useEffect(() => {
+    const api_key = process.env.REACT_APP_API_KEY
+
+    axios
+      .get('http://api.weatherstack.com/current', {
+        params: {
+          access_key: api_key,
+          query: country.capital
+        }
+      })
+      .then(response => {
+        setWeather(response.data)
+      })
+  },[])
+
+  return (
+    <div>
+      <h2>Weather in {country.capital}</h2>
+      <div><strong>Temperature:</strong> {weather.current.temperature} Celsius</div>
+      <img src={weather.current.weather_icons[0]} alt='Weather forecast'/>
+      <div><strong>Wind:</strong> {weather.current.wind_speed}, direction {weather.current.wind_dir} </div>
+    </div>
+  )
+}
+
 const App = () => {
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    console.log('Täällä')
     axios
       .get('https://restcountries.eu/rest/v2/all')
       .then(response => {
-        console.log('fulfilled')
         setCountries(response.data)
       })
   },[])
@@ -78,6 +104,7 @@ const App = () => {
       <div>
         <Filter filter = {filter} handleFilterChange = {handleFilterChange}/>
         <CountryInformation country = {countriesToShow[0]}/>
+        <WeatherInformation country = {countriesToShow[0]}/>
       </div>
     )
   } else {
