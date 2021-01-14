@@ -38,24 +38,27 @@ const App = () => {
   const [ filter, setFilter ] = useState('')
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log('fulfilled')
         setPersons(response.data)
       })
   }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
-    const nameObject = {
+    const personObject = {
       name: newName,
       number: newNumber
     }
 
     if (!(persons.some((person) => person['name'] === newName))) {
-      setPersons(persons.concat(nameObject))
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+        })
+      setPersons(persons.concat(personObject))
     } else {
       alert(`${newName} is already added to the phonebook`)
     }
