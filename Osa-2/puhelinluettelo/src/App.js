@@ -9,13 +9,13 @@ const Filter = ({ filter, handleFilterChange }) => {
   )
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ message, className }) => {
   if (message === null) {
     return null
   }
 
   return (
-    <div className='error'>
+    <div className={className}>
       {message}
     </div>
   )
@@ -52,6 +52,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
   const [ completionMessage, setCompletionMessage] = useState(null)
+  const [ errorMessage, setErrorMessage ] = useState(null)
 
   useEffect(() => {
     PersonService
@@ -88,13 +89,20 @@ const App = () => {
 
         PersonService
           .update(personToChange.id, newPersonObject)
+          .then(returnedPerson => {
+            setPersons(newPersons.concat(newPersonObject))
 
-        setPersons(newPersons.concat(newPersonObject))
-
-        setCompletionMessage("New number is saved!")
-        setTimeout(() => {
-          setCompletionMessage(null)
-        }, 3000)
+            setCompletionMessage("New number is saved!")
+            setTimeout(() => {
+              setCompletionMessage(null)
+            }, 3000)
+          })
+          .catch(error => {
+            setErrorMessage(`${personToChange.name} is already removed from the server`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3000)
+          })
   
       }
     }
@@ -139,7 +147,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={completionMessage}/>
+      <Notification message={errorMessage} className='error'/>
+      <Notification message={completionMessage} className='notification'/>
       <Filter filter = {filter} handleFilterChange = {handleFilterChange} />
       <h2>Add new</h2>
       <PersonForm addPerson = {addPerson} newName = {newName} newNumber = {newNumber} handleNameChange = {handleNameChange} handleNumberChange = {handleNumberChange}/>
