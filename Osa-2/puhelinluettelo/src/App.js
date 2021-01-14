@@ -8,10 +8,13 @@ const Filter = ({ filter, handleFilterChange }) => {
     </div>
   )
 }
- 
-const ListNumbers = ({ personsToShow }) => {
+
+const Person = ({ person, deletePerson }) => {
+
   return (
-    personsToShow.map(person => <div key = {person.name}> {person.name}, {person.number}</div>)
+    <div> 
+      {person.name}, {person.number} <button onClick={deletePerson}>Delete</button>
+    </div>
   )
 }
 
@@ -66,6 +69,17 @@ const App = () => {
     setNewNumber('')
   }
 
+  const deletePersonNum = (id) => {
+    if (window.confirm("Delete this number?")) {
+      const newPersons = persons.filter(person => person.id !== id)
+
+      PersonService
+        .deleteThePerson(id)
+      
+      setPersons(newPersons)
+    }
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -90,7 +104,8 @@ const App = () => {
       <h2>Add new</h2>
       <PersonForm addPerson = {addPerson} newName = {newName} newNumber = {newNumber} handleNameChange = {handleNameChange} handleNumberChange = {handleNumberChange}/>
       <h2>Numbers</h2>
-      <ListNumbers personsToShow = {personsToShow}/>
+      {personsToShow.map(person => 
+        <Person person = {person} deletePerson = {() => deletePersonNum(person.id)} key = {person.name}/>)}
     </div>
   )
 
