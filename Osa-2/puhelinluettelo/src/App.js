@@ -9,6 +9,18 @@ const Filter = ({ filter, handleFilterChange }) => {
   )
 }
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='error'>
+      {message}
+    </div>
+  )
+}
+
 const Person = ({ person, deletePerson }) => {
 
   return (
@@ -39,6 +51,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
+  const [ completionMessage, setCompletionMessage] = useState(null)
 
   useEffect(() => {
     PersonService
@@ -61,6 +74,12 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
         })
+
+      setCompletionMessage("Addition completed!")
+      setTimeout(() => {
+        setCompletionMessage(null)
+      }, 3000)
+
     } else {
       if (window.confirm("Replace old number for this person?")) {
         const personToChange = persons.find(person => person.name === newName)
@@ -71,6 +90,12 @@ const App = () => {
           .update(personToChange.id, newPersonObject)
 
         setPersons(newPersons.concat(newPersonObject))
+
+        setCompletionMessage("New number is saved!")
+        setTimeout(() => {
+          setCompletionMessage(null)
+        }, 3000)
+  
       }
     }
 
@@ -86,6 +111,11 @@ const App = () => {
         .deleteThePerson(id)
       
       setPersons(newPersons)
+
+      setCompletionMessage("Number is deleted!")
+      setTimeout(() => {
+        setCompletionMessage(null)
+      }, 3000)
     }
   }
 
@@ -109,6 +139,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={completionMessage}/>
       <Filter filter = {filter} handleFilterChange = {handleFilterChange} />
       <h2>Add new</h2>
       <PersonForm addPerson = {addPerson} newName = {newName} newNumber = {newNumber} handleNameChange = {handleNameChange} handleNumberChange = {handleNumberChange}/>
