@@ -142,7 +142,7 @@ const App = () => {
 
   const personsToShow = (filter.length === 0)
     ? persons
-    : persons.filter(person => person.name.includes(filter))
+    : persons.filter(person => person.name.toLowerCase().includes(filter))
 
   return (
     <div>
