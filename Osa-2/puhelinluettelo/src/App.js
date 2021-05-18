@@ -74,18 +74,31 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setCompletionMessage("Addition completed!")
+          setTimeout(() => {
+            setCompletionMessage(null)
+          }, 3000)    
         })
-
-      setCompletionMessage("Addition completed!")
-      setTimeout(() => {
-        setCompletionMessage(null)
-      }, 3000)
+        .catch(error => {
+          setErrorMessage("Validation Error")
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
+          const toStringMessage = error.message.toString()
+          setErrorMessage(toStringMessage)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
+        })
 
     } else {
       if (window.confirm("Replace old number for this person?")) {
         const personToChange = persons.find(person => person.name === newName)
+        console.log("Person: ", personToChange)
         const newPersonObject = {...personToChange, number: newNumber}
+        console.log("newPersonObject: ", newPersonObject)
         const newPersons = persons.filter(person => person.id !== personToChange.id)
+        console.log("newPersons: ", newPersons)
 
         PersonService
           .update(personToChange.id, newPersonObject)
