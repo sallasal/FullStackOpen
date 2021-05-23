@@ -94,11 +94,21 @@ describe('most liked', () => {
 
 describe('most written author', () => {
   test('author with most blogs', () => {
-    const result = list_helper.writerWithMostBlogs(blogs)
+    const result = list_helper.mostBlogs(blogs)
     const compareTo = {
       author: 'Robert C. Martin',
       blogs: 3
     }
     expect(result).toEqual(compareTo)
+  })
+})
+
+describe('most liked author', () => {
+  test('author with most likes', () => {
+    const result = list_helper.mostLikes(blogs)
+    const compareTo = {
+      author: 'Edsger W. Dijkstra',
+      likes: 17
+    }
   })
 })
