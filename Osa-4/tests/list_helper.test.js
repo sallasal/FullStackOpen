@@ -79,3 +79,15 @@ describe('total likes', () => {
   })
 
 })
+
+describe('most liked', () => {
+  test('returns most liked from the list', () => {
+    const result = list_helper.mostLiked(blogs)
+    const compareTo = {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      likes: 12
+    }
+    expect(result).toEqual(compareTo)
+  })
+})
