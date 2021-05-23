@@ -14,7 +14,7 @@ const mostLiked = (blogs) => {
   const likeAmounts = blogs.map((blog) => blog.likes)
   const maxLikeAmount = likeAmounts.reduce((first, second) => {
     return Math.max(first, second)
-  })
+  },0)
   const mostLikedBlog = blogs.find((blog) => {
     return blog.likes === maxLikeAmount
   })
