@@ -9,13 +9,13 @@ const initBlogs = [
     author: 'Toby Ord',
     title: 'The Precipice',
     url: 'http://blog.fi',
-    id: '60a3f7261f111082ed90991c'
+    id: '1'
   },
   {
     author: 'Slalla',
     title: 'Slallakoodaa',
     url: 'http://sallakoodaa.com',
-    id: '60a4af059f80b1a60079530c'
+    id: '2'
   }
 ]
 
@@ -33,11 +33,23 @@ test('current amount of blogs are returned as json', async () => {
   expect(response.get('Content-Type')).toEqual('application/json; charset=utf-8')
 })
 
-test('id is correctly returned', async () => {
+test('id field is correctly returned', async () => {
   const response = await api.get('/api/blogs/')
   for (let i = 0; i < response.length; i++) {
     expect(response.body[i].id).toBeDefined()
   }
+})
+
+test('valid blog can be added', async () => {
+  const newBlog = {
+    author: 'Uusi-Slalla',
+    title: 'New great blog',
+    url: 'https://slalla-greatness.greatness',
+    id: '3'
+  }
+  await api.post('/api/blogs').send(newBlog)
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(initBlogs.length + 1)
 })
 
 afterAll(() => {
