@@ -1,14 +1,39 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-
 const api = supertest(app)
+const Blog = require('../models/blog')
 
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+const initBlogs = [
+  {
+    author: 'Toby Ord',
+    title: 'The Precipice',
+    url: 'http://blog.fi',
+    id: '60a3f7261f111082ed90991c'
+  },
+  {
+    author: 'Slalla',
+    title: 'Slallakoodaa',
+    url: 'http://sallakoodaa.com',
+    id: '60a4af059f80b1a60079530c'
+  }
+]
+
+beforeEach(async () => {
+  await Blog.deleteMany({})
+  let blogObject = new Blog(initBlogs[0])
+  await blogObject.save()
+  blogObject = new Blog(initBlogs[1])
+  await blogObject.save()
+})
+
+test('current amount of blogs are returned as json', async () => {
+  const response = await api.get('/api/blogs')
+  console.log('Initblogs length: ', initBlogs.length)
+  console.log('Response headers content type: ', response.get('Content-Type'))
+
+  expect(response.body).toHaveLength(initBlogs.length)
+  expect(response.get('Content-Type')).toEqual('application/json; charset=utf-8')
 })
 
 afterAll(() => {
