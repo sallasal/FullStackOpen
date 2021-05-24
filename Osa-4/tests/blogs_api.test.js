@@ -45,11 +45,24 @@ test('valid blog can be added', async () => {
     author: 'Uusi-Slalla',
     title: 'New great blog',
     url: 'https://slalla-greatness.greatness',
-    id: '3'
+    likes: 7
   }
   await api.post('/api/blogs').send(newBlog)
   const response = await api.get('/api/blogs')
   expect(response.body).toHaveLength(initBlogs.length + 1)
+})
+
+test('if likes not set returns 0', async () => {
+  const newBlog = {
+    author: 'Bloggaaja',
+    title: 'Bloggonen',
+    url: 'www.blogity.blog'
+  }
+  await api.post('/api/blogs').send(newBlog)
+  const response = await api.get('/api/blogs')
+  const body = response.body
+  const newBlogObject = body.find((blog) => blog.title === 'Bloggonen')
+  expect(newBlogObject.likes).toBe(0)
 })
 
 afterAll(() => {
