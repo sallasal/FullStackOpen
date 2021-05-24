@@ -29,11 +29,15 @@ beforeEach(async () => {
 
 test('current amount of blogs are returned as json', async () => {
   const response = await api.get('/api/blogs')
-  console.log('Initblogs length: ', initBlogs.length)
-  console.log('Response headers content type: ', response.get('Content-Type'))
-
   expect(response.body).toHaveLength(initBlogs.length)
   expect(response.get('Content-Type')).toEqual('application/json; charset=utf-8')
+})
+
+test('id is correctly returned', async () => {
+  const response = await api.get('/api/blogs/')
+  for (let i = 0; i < response.length; i++) {
+    expect(response.body[i].id).toBeDefined()
+  }
 })
 
 afterAll(() => {
