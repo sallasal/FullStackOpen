@@ -1,35 +1,21 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const testHelper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 
-const initBlogs = [
-  {
-    author: 'Toby Ord',
-    title: 'The Precipice',
-    url: 'http://blog.fi',
-    likes: 10
-  },
-  {
-    author: 'Slalla',
-    title: 'Slallakoodaa',
-    url: 'http://sallakoodaa.com',
-    likes: 11
-  }
-]
-
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let blogObject = new Blog(initBlogs[0])
+  let blogObject = new Blog(testHelper.initBlogs[0])
   await blogObject.save()
-  blogObject = new Blog(initBlogs[1])
+  blogObject = new Blog(testHelper.initBlogs[1])
   await blogObject.save()
 })
 
 test('current amount of blogs are returned as json', async () => {
   const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(initBlogs.length)
+  expect(response.body).toHaveLength(testHelper.initBlogs.length)
   expect(response.get('Content-Type')).toEqual('application/json; charset=utf-8')
 })
 
@@ -48,8 +34,8 @@ test('valid blog can be added', async () => {
     likes: 7
   }
   await api.post('/api/blogs').send(newBlog)
-  const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(initBlogs.length + 1)
+  const response = await testHelper.blogsInDb()
+  expect(response).toHaveLength(testHelper.initBlogs.length + 1)
 })
 
 test('if likes not set returns 0', async () => {
@@ -59,9 +45,8 @@ test('if likes not set returns 0', async () => {
     url: 'www.blogity.blog'
   }
   await api.post('/api/blogs').send(newBlog)
-  const response = await api.get('/api/blogs')
-  const body = response.body
-  const newBlogObject = body.find((blog) => blog.title === 'Bloggonen')
+  const response = await testHelper.blogsInDb()
+  const newBlogObject = response.find((blog) => blog.title === 'Bloggonen')
   expect(newBlogObject.likes).toBe(0)
 })
 
