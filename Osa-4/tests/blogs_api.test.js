@@ -9,13 +9,13 @@ const initBlogs = [
     author: 'Toby Ord',
     title: 'The Precipice',
     url: 'http://blog.fi',
-    id: '1'
+    likes: 10
   },
   {
     author: 'Slalla',
     title: 'Slallakoodaa',
     url: 'http://sallakoodaa.com',
-    id: '2'
+    likes: 11
   }
 ]
 
