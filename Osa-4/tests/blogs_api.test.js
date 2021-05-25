@@ -65,6 +65,17 @@ test('post without url or title returns 400', async () => {
   await api.post('/api/blogs').send(noTitle).expect(400)
 })
 
+test('blog can be deleted', async () => {
+  const blogsAtStart = await testHelper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+  const blogsAtEnd = await testHelper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(testHelper.initBlogs.length - 1)
+
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
