@@ -50,6 +50,21 @@ test('if likes not set returns 0', async () => {
   expect(newBlogObject.likes).toBe(0)
 })
 
+test('post without url or title returns 400', async () => {
+  const noUrl = {
+    author: 'Bloggaaja',
+    title: 'Blogi',
+    likes: 3
+  }
+  const noTitle = {
+    author: 'Bloggaaja',
+    url: 'http://blogi',
+    likes: 7
+  }
+  await api.post('/api/blogs').send(noUrl).expect(400)
+  await api.post('/api/blogs').send(noTitle).expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
