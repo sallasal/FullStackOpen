@@ -76,6 +76,23 @@ test('blog can be deleted', async () => {
 
 })
 
+test('blog can be updated', async () => {
+  const blogsAtStart = await testHelper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const newContent = {
+    title: 'New title!',
+    author: blogToUpdate.author,
+    url: blogToUpdate.url,
+    likes: blogToUpdate.likes,
+    id: blogToUpdate.id
+  }
+
+  await api.put(`/api/blogs/${blogToUpdate.id}`).send(newContent)
+  const blogsAtEnd = await testHelper.blogsInDb()
+  const titles = blogsAtEnd.map(instance => instance.title)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
