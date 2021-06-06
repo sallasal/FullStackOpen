@@ -7,6 +7,9 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newUrl, setNewUrl] = useState('')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -20,6 +23,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -33,7 +37,7 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogAppUser', JSON.stringify(user)
       )
-      
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -45,9 +49,28 @@ const App = () => {
   const handleLogout = (event) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedBlogAppUser')
+    blogService.setToken(null)
     setUser(null)
     setUsername('')
     setPassword('')
+  }
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+    const blogObject = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl
+    }
+    try {
+      const createdBlog = await blogService.create(blogObject)
+      setBlogs(blogs.concat(createdBlog))
+      setNewTitle('')
+      setNewAuthor('')
+      setNewUrl('')
+    } catch (exception) {
+      alert('Adding blog did not succeed')
+    }
   }
 
   const Header = () => {
@@ -81,6 +104,12 @@ const App = () => {
       <p>
         <button onClick={handleLogout}>Logout</button>
       </p>
+      <form onSubmit={addBlog}>
+      Title: <input type='text' value={newTitle} name='title' onChange={(event) => {setNewTitle(event.target.value)}} /><br />
+      Author: <input type='text' value={newAuthor} name='author' onChange={(event) => {setNewAuthor(event.target.value)}} /><br />
+      Url: <input type='text' value={newUrl} name='url' onChange={(event) => {setNewUrl(event.target.value)}} /><br />
+      <button type='submit'>Create new</button>
+    </form>
       <h2>Blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
