@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [notification, setNotification ] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [newTitle, setNewTitle] = useState('')
@@ -27,6 +29,13 @@ const App = () => {
     }
   }, [])
 
+  const notifyWith = (message, type) => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -41,8 +50,9 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      notifyWith('Login succeeded', 'success')
     } catch (exception) {
-      alert('Wrong credentials')
+      notifyWith('Wrong credentials', 'error')
     }
   }
 
@@ -68,14 +78,16 @@ const App = () => {
       setNewTitle('')
       setNewAuthor('')
       setNewUrl('')
+      notifyWith(`Blog was created. Title: ${createdBlog.title}. Author: ${createdBlog.author}`, 'success')
     } catch (exception) {
-      alert('Adding blog did not succeed')
+      notifyWith('Adding blog did not succeed', 'error')
     }
   }
 
   const Header = () => {
     return <div>
       <h1>Blog application</h1>
+      <Notification notification = {notification} />
     </div>
   }
 
