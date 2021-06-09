@@ -91,6 +91,17 @@ const App = () => {
     </div>
   }
 
+  const addBlogForm = () => {
+    return (
+      <form onSubmit={addBlog}>
+        Title: <input type='text' value={newTitle} name='title' onChange={(event) => {setNewTitle(event.target.value)}} /><br />
+        Author: <input type='§text' value={newAuthor} name='author' onChange={(event) => {setNewAuthor(event.target.value)}} /><br />
+        Url: <input type='text' value={newUrl} name='url' onChange={(event) => {setNewUrl(event.target.value)}} /><br />
+        <button type='submit'>Create new</button>
+      </form>
+    )
+  }
+
   if (user === null) {
     return (
       <div> 
@@ -116,12 +127,7 @@ const App = () => {
       <p>
         <button onClick={handleLogout}>Logout</button>
       </p>
-      <form onSubmit={addBlog}>
-      Title: <input type='text' value={newTitle} name='title' onChange={(event) => {setNewTitle(event.target.value)}} /><br />
-      Author: <input type='text' value={newAuthor} name='author' onChange={(event) => {setNewAuthor(event.target.value)}} /><br />
-      Url: <input type='text' value={newUrl} name='url' onChange={(event) => {setNewUrl(event.target.value)}} /><br />
-      <button type='submit'>Create new</button>
-    </form>
+      {addBlogForm()}
       <h2>Blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
