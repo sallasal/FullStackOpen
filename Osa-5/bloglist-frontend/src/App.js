@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import AddBlogForm from './components/AddBlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -93,12 +94,17 @@ const App = () => {
 
   const addBlogForm = () => {
     return (
-      <form onSubmit={addBlog}>
-        Title: <input type='text' value={newTitle} name='title' onChange={(event) => {setNewTitle(event.target.value)}} /><br />
-        Author: <input type='§text' value={newAuthor} name='author' onChange={(event) => {setNewAuthor(event.target.value)}} /><br />
-        Url: <input type='text' value={newUrl} name='url' onChange={(event) => {setNewUrl(event.target.value)}} /><br />
-        <button type='submit'>Create new</button>
-      </form>
+      <div>
+        <AddBlogForm 
+            addBlog={addBlog}
+            setNewTitle={setNewTitle}
+            setNewAuthor={setNewAuthor}
+            setNewUrl={setNewUrl}
+            newTitle={newTitle}
+            newAuthor={newAuthor}
+            newUrl={newUrl}
+        />
+      </div>
     )
   }
 
