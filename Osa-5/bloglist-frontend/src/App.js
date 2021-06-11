@@ -17,9 +17,10 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs => {
+      blogs.sort((a,b) => a.likes - b.likes)
       setBlogs( blogs )
-    )  
+    })  
   }, [])
 
   useEffect(() => {
