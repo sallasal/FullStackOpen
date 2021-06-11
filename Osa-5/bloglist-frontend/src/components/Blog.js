@@ -1,7 +1,9 @@
+import userEvent from '@testing-library/user-event'
 import React, { useState } from 'react'
 
 const Blog = ({blog}) => {
   const [blogInfo, showAllInfo] = useState(false)
+  const user = blog.user
 
   const blogStyle = {
     paddingTop: 10,
@@ -30,7 +32,8 @@ const Blog = ({blog}) => {
         Title: { blog.title }<br />
         Author: { blog.author }<br />
         URL: { blog.url }<br />
-        Likes: { blog.likes }<br />
+        Likes: { blog.likes }<button>Like</button><br />
+        Creator: { user.name }<br />
         <button onClick={ showInfo }>Hide</button>
       </div>
     </div>
