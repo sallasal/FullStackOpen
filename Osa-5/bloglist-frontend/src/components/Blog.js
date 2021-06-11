@@ -1,7 +1,8 @@
 import userEvent from '@testing-library/user-event'
 import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
-const Blog = ({blog}) => {
+const Blog = ({blog, setBlogs, blogs}) => {
   const [blogInfo, showAllInfo] = useState(false)
   const user = blog.user
 
@@ -21,6 +22,19 @@ const Blog = ({blog}) => {
     showAllInfo(!blogInfo)
   }
 
+  const like = async () => {
+    const data = {
+      user: user.id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url,
+      id: blog.id
+    }
+    const res = await blogService.put(data)
+    setBlogs(blogs.map((instance) => (instance.id !== res.id ? instance : res)))
+  }
+
   return (
     <div style={ blogStyle }>
       <div style={ limitedInfo }>
@@ -32,7 +46,7 @@ const Blog = ({blog}) => {
         Title: { blog.title }<br />
         Author: { blog.author }<br />
         URL: { blog.url }<br />
-        Likes: { blog.likes }<button>Like</button><br />
+        Likes: { blog.likes }<button onClick={like}>Like</button><br />
         Creator: { user.name }<br />
         <button onClick={ showInfo }>Hide</button>
       </div>
