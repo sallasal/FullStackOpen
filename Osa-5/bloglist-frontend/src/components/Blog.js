@@ -37,6 +37,16 @@ const Blog = ({blog, setBlogs, blogs}) => {
     setBlogs(newBlogArray)
   }
 
+  const del = async () => {
+    const blogId = blog.id
+    if (window.confirm('Really deleting you are?')) {
+      await blogService.deleteBlog(blogId)
+      const newBlogArray = blogs.filter((instance) => instance.id !== blogId)
+      newBlogArray.sort((a,b) => a.likes - b.likes)
+      setBlogs(newBlogArray)
+    }
+  }
+
   return (
     <div style={ blogStyle }>
       <div style={ limitedInfo }>
@@ -50,7 +60,7 @@ const Blog = ({blog, setBlogs, blogs}) => {
         URL: { blog.url }<br />
         Likes: { blog.likes }<button onClick={like}>Like</button><br />
         Creator: { user.name }<br />
-        <button onClick={ showInfo }>Hide</button>
+        <button onClick={ showInfo }>Hide</button> <button onClick = { del }>Delete</button>
       </div>
     </div>
   )
