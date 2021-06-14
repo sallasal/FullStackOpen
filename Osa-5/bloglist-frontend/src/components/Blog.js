@@ -6,7 +6,7 @@ const Blog = ({blog, setBlogs, blogs}) => {
   const [blogInfo, showAllInfo] = useState(false)
   const user = blog.user
 
-    const blogStyle = {
+  const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
