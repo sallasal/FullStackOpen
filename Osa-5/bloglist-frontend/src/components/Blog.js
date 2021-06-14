@@ -5,6 +5,10 @@ import blogService from '../services/blogs'
 const Blog = ({blog, setBlogs, blogs}) => {
   const [blogInfo, showAllInfo] = useState(false)
   const user = blog.user
+  const username = 'No user defined'
+  if (user) {
+    username = user.name
+  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -49,17 +53,17 @@ const Blog = ({blog, setBlogs, blogs}) => {
 
   return (
     <div style={ blogStyle }>
-      <div style={ limitedInfo }>
+      <div style={ limitedInfo } className='limitedBlogInfo'>
         Title: { blog.title }<br />
         Author: { blog.author }<br />
         <button onClick={ showInfo }>Show</button>
       </div> 
-      <div style={ allInfo }>
+      <div style={ allInfo } className='fullBlogInfo'>
         Title: { blog.title }<br />
         Author: { blog.author }<br />
         URL: { blog.url }<br />
         Likes: { blog.likes }<button onClick={like}>Like</button><br />
-        Creator: { user.name }<br />
+        Creator: { username }<br />
         <button onClick={ showInfo }>Hide</button> <button onClick = { del }>Delete</button>
       </div>
     </div>
