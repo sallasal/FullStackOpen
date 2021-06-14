@@ -42,4 +42,20 @@ describe('<Blog />',() => {
     expect(div).toHaveStyle('display: none')
   })
 
+  test('after clicking the show button, full information is shown', () => {
+    const button = component.getByText('Show')
+    fireEvent.click(button)
+
+    const div = component.container.querySelector('.fullBlogInfo')
+    expect(div).not.toHaveStyle('display: none')
+  })
+
+  test('after clicking the show button, limited information is hidden', () => {
+    const button = component.getByText('Show')
+    fireEvent.click(button)
+
+    const div = component.container.querySelector('.limitedBlogInfo')
+    expect(div).toHaveStyle('display: none')
+  })
+
 })
