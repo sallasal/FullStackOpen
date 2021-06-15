@@ -64,7 +64,7 @@ const Blog = ({blog, setBlogs, blogs}) => {
         URL: { blog.url }<br />
         Likes: { blog.likes }<button id='likeButton' onClick={like}>Like</button><br />
         Creator: { username }<br />
-        <button onClick={ showInfo }>Hide</button> <button onClick = { del }>Delete</button>
+        <button onClick={ showInfo }>Hide</button> <button id='delButton' onClick = { del }>Delete</button>
       </div>
     </div>
   )

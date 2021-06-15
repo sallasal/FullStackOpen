@@ -52,7 +52,7 @@ describe('Blog app', function() {
       cy.contains('Very good author indeed')
     })
 
-    it('a blog can be liked', function () {
+    it('a blog can be liked', function() {
       cy.contains('Add new blog').click()
       cy.get('#title').type('New very good blog')
       cy.get('#author').type('Very good author indeed')
@@ -64,5 +64,18 @@ describe('Blog app', function() {
 
       cy.contains('Likes: 1')
     })
+
+    it('user can remove blog', function() {
+      cy.contains('Add new blog').click()
+      cy.get('#title').type('New very good blog')
+      cy.get('#author').type('Very good author indeed')
+      cy.get('#url').type('www.good.blog')
+      cy.get('#submitButton').click()
+
+      cy.get('#showButton').click()
+      cy.get('#delButton').click()
+
+      cy.contains('New very good blog').should('not.exist')
+    } )
   })
 })
