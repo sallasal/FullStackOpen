@@ -11,10 +11,10 @@ const AddBlogForm = ({
 }) => {
   return (
     <form onSubmit={addBlog}>
-      Title: <input type='text' value={newTitle} name='title' onChange={(event) => {setNewTitle(event.target.value)}} /><br />
-      Author: <input type='§text' value={newAuthor} name='author' onChange={(event) => {setNewAuthor(event.target.value)}} /><br />
-      Url: <input type='text' value={newUrl} name='url' onChange={(event) => {setNewUrl(event.target.value)}} /><br />
-      <button type='submit'>Create new</button>
+      Title: <input type='text' value={newTitle} name='title' id='title' onChange={(event) => {setNewTitle(event.target.value)}} /><br />
+      Author: <input type='§text' value={newAuthor} name='author' id='author' onChange={(event) => {setNewAuthor(event.target.value)}} /><br />
+      Url: <input type='text' value={newUrl} name='url' id='url' onChange={(event) => {setNewUrl(event.target.value)}} /><br />
+      <button type='submit' id='submitButton'>Create new</button>
     </form>
   )
 }

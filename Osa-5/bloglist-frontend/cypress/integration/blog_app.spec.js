@@ -33,4 +33,23 @@ describe('Blog app', function() {
       cy.get('.error').should('contain', 'Wrong credentials').and('have.css', 'color', 'rgb(255, 0, 0)')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.get('#username').type('ultiinamate')
+      cy.get('#password').type('salasana123')
+      cy.get('#loginButton').click()
+    })
+
+    it('a new blog can be created', function() {
+      cy.contains('Add new blog').click()
+      cy.get('#title').type('New very good blog')
+      cy.get('#author').type('Very good author indeed')
+      cy.get('#url').type('www.good.blog')
+      cy.get('#submitButton').click()
+
+      cy.contains('New very good blog')
+      cy.contains('Very good author indeed')
+    })
+  })
 })
