@@ -38,7 +38,6 @@ const Blog = ({blog, setBlogs, blogs}) => {
     const res = await blogService.put(data)
     const newBlogArray = blogs.map((instance) => (instance.id !== res.id ? instance : res))
     newBlogArray.sort((a,b) => a.likes - b.likes)
-    console.log('we come here')
     setBlogs(newBlogArray)
   }
 
