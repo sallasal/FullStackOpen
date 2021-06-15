@@ -5,7 +5,7 @@ import blogService from '../services/blogs'
 const Blog = ({blog, setBlogs, blogs}) => {
   const [blogInfo, showAllInfo] = useState(false)
   const user = blog.user
-  const username = 'No user defined'
+  let username = 'No user defined'
   if (user) {
     username = user.name
   }
@@ -38,6 +38,7 @@ const Blog = ({blog, setBlogs, blogs}) => {
     const res = await blogService.put(data)
     const newBlogArray = blogs.map((instance) => (instance.id !== res.id ? instance : res))
     newBlogArray.sort((a,b) => a.likes - b.likes)
+    console.log('we come here')
     setBlogs(newBlogArray)
   }
 
