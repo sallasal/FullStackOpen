@@ -1,4 +1,5 @@
 import deepFreeze from 'deep-freeze'
+import testUtils from 'react-dom/test-utils'
 import counterReducer from './reducer'
 
 describe('unicafe reducer', () => {
@@ -28,6 +29,52 @@ describe('unicafe reducer', () => {
     const newState = counterReducer(state, action)
     expect(newState).toEqual({
       good: 1,
+      ok: 0,
+      bad: 0
+    })
+  })
+
+  test('ok is incremented', () => {
+    const action = {
+      type: 'OK'
+    }
+    const state = initialState
+
+    deepFreeze(state)
+    const newState = counterReducer(state, action)
+    expect(newState).toEqual({
+      good: 0,
+      ok: 1,
+      bad: 0
+    })
+  })
+
+  test('bad is incremented', () => {
+    const action = {
+      type: 'BAD'
+    }
+    const state = initialState
+
+    deepFreeze(state)
+    const newState = counterReducer(state, action)
+    expect(newState).toEqual({
+      good: 0,
+      ok: 0,
+      bad: 1
+    })
+  })
+
+  test('zeroing state works', () => {
+    const state = initialState
+
+    deepFreeze(state)
+    let newState = counterReducer(state, { type: 'GOOD' })
+    newState = counterReducer(state, { type: 'GOOD' })
+    newState = counterReducer(state, { type: 'OK' })
+    newState = counterReducer(state, { type: 'BAD' })
+    newState = counterReducer(state, { type: 'ZERO' })
+    expect(newState).toEqual({
+      good: 0,
       ok: 0,
       bad: 0
     })
