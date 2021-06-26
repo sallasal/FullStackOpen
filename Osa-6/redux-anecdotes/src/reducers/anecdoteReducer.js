@@ -26,6 +26,27 @@ export const voteAnecdote = (id) => {
   }
 }
 
+export const addAnecdote = (content) => {
+  return {
+    type: 'ADD_ANECDOTE',
+    data: {
+      content,
+      id: getId(),
+      votes: 0
+    }
+  }
+}
+
+const compare = (a,b) => {
+  if ( a.votes > b.votes ) {
+    return -1
+  } else if ( a.votes < b.votes ) {
+    return 1
+  } else {
+    return 0
+  }
+}
+
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
@@ -36,7 +57,13 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToVote,
         votes: anecdoteToVote.votes + 1
       }
-      return state.map( a => a.id !== action.data.id ? a : updatedAnecdote)
+      const votedArray = state.map( a => a.id !== action.data.id ? a : updatedAnecdote)
+      const sortedVoted = votedArray.sort(compare)
+      return sortedVoted
+    case 'ADD_ANECDOTE':
+      const addedArray = [...state, action.data]
+      const sortedAdded = addedArray.sort(compare)
+      return sortedAdded
     default:
       return state
   }
