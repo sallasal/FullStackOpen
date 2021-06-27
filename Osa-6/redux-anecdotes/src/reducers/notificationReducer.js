@@ -1,14 +1,36 @@
 const defaultState = {
-  type: 'SET-TEXT',
-  text: 'Nothing special to notify! What a fine person you are!'
+  text: null
 }
 
 const notificationReducer = (state = defaultState, action) => {
-  return state
+  //console.log('State in notification reducer now ', state)
+  //console.log('action', action)
+  switch(action.type) {
+    case 'SET-TEXT':
+      return {
+        text: action.data
+      }
+    case 'REMOVE':
+      return {
+        text: null
+      }
+    default: return state
+  }
+
 }
 
-export const setNotification = () => {
-  return defaultState
+export const setNotification = (notificationText) => {
+  return {
+    type: 'SET-TEXT',
+    data: notificationText
+  }
+}
+
+export const removeNotification = () => {
+  return {
+    type: 'REMOVE',
+    data: null
+  }
 }
 
 export default notificationReducer

@@ -11,6 +11,12 @@ const Notification = () => {
   const notification = useSelector(state => state.notifications)
   //console.log('notification: ', notification)
 
+  if (notification.text === null) {
+    return (
+      <br />
+    )
+  }
+
   return (
     <div style={style}>
       { notification.text }
