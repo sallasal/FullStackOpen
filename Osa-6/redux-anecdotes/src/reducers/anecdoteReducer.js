@@ -37,6 +37,13 @@ export const addAnecdote = (content) => {
   }
 }
 
+export const initializeAnecdotes = (anecdotes) => {
+  return {
+    type: 'INIT_ANECDOTES',
+    data: anecdotes
+  }
+}
+
 const compare = (a,b) => {
   if ( a.votes > b.votes ) {
     return -1
@@ -47,7 +54,7 @@ const compare = (a,b) => {
   }
 }
 
-const anecdoteReducer = (state = initialState, action) => {
+const anecdoteReducer = (state = [], action) => {
   //console.log('state now: ', state)
   //console.log('action', action)
   switch(action.type) {
@@ -64,6 +71,9 @@ const anecdoteReducer = (state = initialState, action) => {
       const addedArray = [...state, action.data]
       const sortedAdded = addedArray.sort(compare)
       return sortedAdded
+
+    case 'INIT_ANECDOTES':
+      return action.data
     default:
       return state
   }
