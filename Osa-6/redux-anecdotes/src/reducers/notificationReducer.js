@@ -19,10 +19,15 @@ const notificationReducer = (state = defaultState, action) => {
 
 }
 
-export const setNotification = (notificationText) => {
-  return {
-    type: 'SET-TEXT',
-    data: notificationText
+export const setNotification = (notificationText, timeoutTime) => {
+  return async dispatch => {
+    dispatch({
+        type: 'SET-TEXT',
+        data: notificationText
+    })
+    setTimeout(() => {
+      dispatch(removeNotification())
+    },timeoutTime) 
   }
 }
 
