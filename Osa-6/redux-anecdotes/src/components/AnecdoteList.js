@@ -39,8 +39,7 @@ const mapStateToProps = (state) => {
   console.log('State: ', state)
   return {
     anecdotes: state.anecdotes,
-    filterText: state.filterText,
-    notifications: state.notifications
+    filterText: state.filterText
   }
 }
 
