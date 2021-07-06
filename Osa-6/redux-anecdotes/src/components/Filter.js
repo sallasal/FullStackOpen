@@ -22,7 +22,7 @@ const Filter = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  
+  return {}
 }
 
 const mapDispatchToProps = {

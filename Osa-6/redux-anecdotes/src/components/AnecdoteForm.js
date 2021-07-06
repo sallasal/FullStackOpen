@@ -24,6 +24,7 @@ const NewAnecdote = (props) => {
 }
 
 const mapStateToProps = (state) => {
+  return {}
 }
 
 const mapDispatchToProps = {
